@@ -28,12 +28,20 @@ app.use(
 
 app.use(bodyParser.json());
 
+app.get("/logout", function (req, res) {
+  req.session.authenticated = false
+  res.redirect("/");
+
+});
+
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
     res.redirect("/home");
     return;
   }
   res.sendFile(path.join(__dirname, "public", "signupOrLogin.html"));
+
+  // res.sendFile(path.join(__dirname, "public", "login_sfdc.html"));
 });
 
 app.get("/home", function (req, res) {
@@ -45,49 +53,68 @@ app.get("/home", function (req, res) {
   res.sendFile(path.join(__dirname, "public", "home.html"));
 });
 
-app.post("/users", async function (req, res) {
-  const stytchUserId = req.body.userId;
-  const email = req.body.email;
+// app.get("/oauth", function (req, res) {
+//   var token = req.query.token;
+//   console.log('CLIENT')
+//   console.log(req.params.stytch_token_type)
+//   console.log(client)
 
-  // Query the user by stytch_id and email
-  const query = 'SELECT id, email FROM user WHERE stytch_id = ? AND email = ?';
-  const params = [stytchUserId, email]
-  database.db.all(query, params, (err, rows) => {
-    if (err) return res.status(400).send(err);
+//   if
+//   client.oauth.authenticate(token)
+//     .then(resp => {
+//       req.session.authenticated = true;
+//       req.session.save(function (err) {
+//         if (err) console.log(err);
+//       });
+//       res.redirect("/home");
+//       console.log(resp)
+//     })
+//     .catch(err => {
+//       console.log(err)
+//       res.send("There was an error authenticating the user.");
+//     });
+// });
 
-    // If user is not found, create a new user with stytch_id and email
-    if (rows.length === 0) {
-      const insertQuery = 'INSERT INTO user (email, stytch_id) VALUES (?, ?)';
-      const params = [email, stytchUserId];
-      database.db.run(insertQuery, params, (result, err) => {
-        if (err) {
-          return res.status(400).send(err);
-        } else {
-          console.log("User created");
-          return res.status(201).send(result);
-        }
-      });
-    } else {
-      // User was already saved in database.
-      console.log("User retrieved");
-      res.status(200).send(rows[0]);
-    }
-  });
-});
 app.get("/authenticate", function (req, res) {
   var token = req.query.token;
-  client.magicLinks.authenticate(token)
-    .then((response) => {
-      req.session.authenticated = true;
-      req.session.save(function (err) {
-        if (err) console.log(err);
+  console.log(req.params)
+  var type  = req.query.stytch_token_type
+  console.log(type)
+  switch (type) {
+   case "oauth": 
+    client.oauth.authenticate(token)
+      .then(resp => {
+        req.session.authenticated = true;
+        req.session.save(function (err) {
+          if (err) console.log(err);
+        });
+        res.redirect("/home");
+        console.log(resp)
+      })
+      .catch(err => {
+        console.log(err)
+        res.send("There was an error authenticating the user.");
       });
-      res.redirect("/home");
-    })
-    .catch((error) => {
-      console.log(error);
-      res.send("There was an error authenticating the user.");
-    });
+      break;
+    case "magic_links":
+      client.magicLinks.authenticate(token)
+        .then((response) => {
+          req.session.authenticated = true;
+          req.session.save(function (err) {
+            if (err) console.log(err);
+          });
+          res.redirect("/home");
+        })
+        .catch((error) => {
+          console.log(error);
+          res.send("There was an error authenticating the user.");
+        });
+      break;
+    default:
+      console.log(type)
+    
+  }
+
 });
 
 app.listen(9000, () => {

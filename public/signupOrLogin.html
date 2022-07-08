@@ -9,57 +9,40 @@
     <div class="App">
       <header className="App-header"></header>
       <div class="Sign-in-container">
-        <div id="magic-link"></div>
+        <div id="stytch-sdk"></div>
       </div>
     </div>
     <script>
       // Initialize Stytch.js with your public token. You can find this in your Stytch dashboard under API Keys.
-      var STYTCH_PUBLIC_TOKEN = "public-token-test-111111111111";
-      var stytch = Stytch(STYTCH_PUBLIC_TOKEN, {
-        onEvent: (data) => {
-          // We recommend saving the stytch_id to your user.
-          if (data.eventData.type === 'USER_EVENT_TYPE') {
-            try {
-              fetch('/users', { 
-                method: 'POST',
-                mode: 'cors',
-                body: JSON.stringify({ userId: data.eventData.userId, email: data.eventData.email, }),
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-              });
-            } catch(e) {
-              console.log(e);
-            }
-          }
-        },
-        onSuccess: (response) => {
-            // Handle a successfully sent magic link
-            console.log(response);
-        },
-        onError: (response) => {
-          console.log(response);
-        }
-      });
-      var style = {
-        fontFamily: '"Helvetica New", Helvetica, sans-serif',
-        width: '321px',
-        primaryColor: '#0577CA',
-      };
-      var magicLinkDefaults = {
-        products: ['emailMagicLinks'],
+      var STYTCH_PUBLIC_TOKEN = "public-token-test-edc55d05-a146-4a3b-9f73-5d694f983536";
+      var stytch = Stytch(STYTCH_PUBLIC_TOKEN);
+      var loginOrSignupViewConfig = {
         emailMagicLinksOptions: {
           loginRedirectURL: "http://localhost:9000/authenticate",
           loginExpirationMinutes: 30,
           signupRedirectURL: "http://localhost:9000/authenticate",
           signupExpirationMinutes: 30,
-        }
+        },
+        oauthOptions: {
+          loginRedirectURL: "http://localhost:9000/authenticate",
+          signupRedirectURL: "http://localhost:9000/authenticate",
+          providers: [
+            {
+              type: 'google',
+              'one_tap': false,
+              position: 'embedded',
+            },
+          ],
+        },
+        products: [
+          'oauth',
+          'emailMagicLinks'
+        ],
       };
       stytch.mount({
-        elementId: "#magic-link",
-        style: style,
-        loginOrSignupView: magicLinkDefaults
-      });  
+        elementId: "#stytch-sdk",
+        loginOrSignupView: loginOrSignupViewConfig,
+      });
     </script>
   </body>
 </html>
