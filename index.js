@@ -33,6 +33,14 @@ app.get("/logout", function (req, res) {
   res.redirect("/");
 
 });
+app.get("/sfdc", function (req, res) {
+  if (req.session.authenticated) {
+    res.redirect("/home");
+    return;
+  }
+
+  res.sendFile(path.join(__dirname, "public", "login_sfdc.html"));
+});
 
 app.get("/", function (req, res) {
   if (req.session.authenticated) {
@@ -41,7 +49,6 @@ app.get("/", function (req, res) {
   }
   res.sendFile(path.join(__dirname, "public", "signupOrLogin.html"));
 
-  // res.sendFile(path.join(__dirname, "public", "login_sfdc.html"));
 });
 
 app.get("/home", function (req, res) {
