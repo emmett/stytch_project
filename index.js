@@ -39,7 +39,7 @@ app.get("/sfdc", function (req, res) {
     return;
   }
 
-  res.sendFile(path.join(__dirname, "public", "login_sfdc.html"));
+  res.sendFile(path.join(__dirname, "public", "sfdc_login.html"));
 });
 
 app.get("/", function (req, res) {
@@ -47,7 +47,7 @@ app.get("/", function (req, res) {
     res.redirect("/home");
     return;
   }
-  res.sendFile(path.join(__dirname, "public", "signupOrLogin.html"));
+  res.sendFile(path.join(__dirname, "public", "sfdc_login.html"));
 
 });
 
@@ -60,6 +60,9 @@ app.get("/home", function (req, res) {
   res.sendFile(path.join(__dirname, "public", "home.html"));
 });
 
+app.get("/verify", function (req, res) {
+  res.sendFile(path.join(__dirname, "public", "verify.html"));
+});
 // app.get("/oauth", function (req, res) {
 //   var token = req.query.token;
 //   console.log('CLIENT')

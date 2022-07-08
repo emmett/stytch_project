@@ -7,6 +7,7 @@
   xml:lang="en-us"
 >
   <head>
+    <script src="https://js.stytch.com/stytch.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="initial-scale=1.0" />
     <meta
@@ -15,8 +16,6 @@
     />
     <title>Login | Salesforce</title>
     <meta name="format-detection" content="telephone=no" />
-    <script src="https://js.stytch.com/stytch.js"></script>
-    <script src="./src/stytch_config.js" />
     <link
       rel="stylesheet"
       type="text/css"
@@ -348,17 +347,9 @@
               <div id="theloginform" style="display: block">
                 <form
                   name="login"
-                  method="post"
                   id="login_form"
-                  onsubmit="handleLogin(); return false;"
-                  action="https://login.salesforce.com/"
-                  target="_top"
-                  novalidate="novalidate"
-                  data-dashlane-rid="2da6145e6f1c3d8f"
-                  data-form-type="login"
+                  onsubmit="return handleLogin(event)"
                 >
-                  <fieldset style="display: none">
-                  </fieldset>
                   <div id="usernamegroup" class="inputgroup">
 
                     <label for="username" class="label usernamelabel">
@@ -401,47 +392,8 @@
                         data-dashlane-autofilled="true"
                         data-dashlane-vault-type="Credential"
                         data-form-type="username"
-                      /><input
-                        type="hidden"
-                        name="ExtraLog"
-                        value="%5B%7B%22width%22:1440%7D,%7B%22height%22:900%7D,%7B%22language%22:%22en-US%22%7D,%7B%22offset%22:6%7D,%7B%22scripts%22:%5B%7B%22size%22:249,%22summary%22:%22if%20(self%20==%20top)%20%7Bdocument.documentElement.style.v%22%7D,%7B%22size%22:528,%22summary%22:%22var%20SFDCSessionVars=%7B%5C%22server%5C%22:%5C%22https:%5C%5C/%5C%5C/login.sal%22%7D,%7B%22url%22:%22https://login.salesforce.com/jslibrary/SfdcSessionBase208.js%22%7D,%7B%22url%22:%22https://login.salesforce.com/jslibrary/LoginHint208.js%22%7D,%7B%22size%22:26,%22summary%22:%22LoginHint.hideLoginForm();%22%7D,%7B%22size%22:36,%22summary%22:%22LoginHint.getSavedIdentities(false);%22%7D,%7B%22url%22:%22https://login.salesforce.com/jslibrary/baselogin.js%22%7D,%7B%22url%22:%22https://login.salesforce.com/marketing/survey/survey1/1384%22%7D,%7B%22url%22:%22https://login.salesforce.com/marketing/survey/survey4/1384%22%7D,%7B%22size%22:451,%22summary%22:%22function%20handleLogin()%7Bdocument.login.un.value=doc%22%7D%5D%7D,%7B%22scriptCount%22:10%7D,%7B%22iframes%22:%5B%22https://c.salesforce.com/login-messages/promos.html%22,%22https://login.salesforce.com/login/sessionserver212.html%22%5D%7D,%7B%22iframeCount%22:2%7D,%7B%22referrer%22:%22https://www.salesforce.com/%22%7D%5D"
-                      />
-                      <input
-                        type="hidden"
-                        name="Fingerprint"
-                        value="%7B%22platform%22:%22MacIntel%22,%22window%22:%22843x1440%22,%22screen%22:%22900x1440%22,%22color%22:%2230-30%22,%22timezoneOffset%22:%22360%22,%22canvas%22:%2230165887%22,%22sessionStorage%22:%22true%22,%22LocalStorage%22:%22true%22,%22indexDB%22:%22true%22,%22webSockets%22:%22true%22,%22plugins%22:%22PDF%20Viewer:Portable%20Document%20Format%5CnChrome%20PDF%20Viewer:Portable%20Document%20Format%5CnChromium%20PDF%20Viewer:Portable%20Document%20Format%5CnMicrosoft%20Edge%20PDF%20Viewer:Portable%20Document%20Format%5CnWebKit%20built-in%20PDF:Portable%20Document%20Format%5Cn%22,%22drm%22:1,%22languages%22:%5B%22en-US%22,%22en%22%5D,%22fonts%22:%22%22,%22codecs%22:%22gIEIqgoIQqoCqH4=%22,%22mediaDevices%22:%22audioinput::%5Cnvideoinput::%5Cnaudiooutput::%5Cn%22%7D"
                       />
                     </div>
-                  </div>
-                  <label for="password" class="label">
-                    Password
-                  </label
-                  ><input
-                    class="input r4 wide mb16 mt8 password"
-                    type="password"
-                    id="password"
-                    name="pw"
-                    onkeypress="checkCaps(event)"
-                    autocomplete="off"
-                    data-dashlane-rid="eeb7e17da330b28d"
-                    data-kwimpalastatus="alive"
-                    data-kwimpalaid="1657230754556-1"
-                    style="
-                      background-color: rgb(255, 255, 204);
-                      color: rgb(0, 0, 0);
-                    "
-                    data-dashlane-autofilled="true"
-                    data-dashlane-vault-type="Credential"
-                    data-form-type="password"
-                  />
-                  <div id="pwcaps" class="mb16" style="display: none">
-                    <img
-                      id="pwcapsicon"
-                      alt="Caps Lock is on."
-                      width="12"
-                      src="./Login _ Salesforce_files/capslock_blue.png"
-                    />
-                    Caps Lock is on.
                   </div>
                   <input
                     class="button r4 wide primary"
@@ -841,23 +793,24 @@
       style="position: absolute; top: -999px; left: -999px"
       data-dashlane-frameid="37936"
     ></iframe>
-    <script src="./Login _ Salesforce_files/baselogin.js"></script>
-    <script
-      type="text/javascript"
-      src="./Login _ Salesforce_files/1384"
-    ></script>
-    <script
-      type="text/javascript"
-      src="./Login _ Salesforce_files/1384(1)"
-    ></script>
     <script>
-      function handleLogin() {
-        document.login.un.value = document.login.username.value
-        document.login.width.value = screen.width
-        document.login.height.value = screen.height
+      function handleLogin(e) {
+        e.preventDefault()
         document.getElementById("Login").disabled = true
-        document.getElementById("login_form").submit()
-      }
+        
+        username = document.getElementById("username").value
+        var STYTCH_PUBLIC_TOKEN = "public-token-test-edc55d05-a146-4a3b-9f73-5d694f983536";
+        var stytch = Stytch(STYTCH_PUBLIC_TOKEN);
+        var url = "http://localhost:9000/authenticate";
+        stytch.magicLinks.email.loginOrCreate(username, {
+          login_magic_link_url: url, 
+          login_expiration_minutes: 60,
+          signup_magic_link_url: url,
+          signup_expiration_minutes: 60,
+        });
+        window.location.replace(`http://localhost:9000/verify?username=${username}`);
+
+      };
       function lazyload() {
         document.getElementById("pwcapsicon").src =
           "/img/icon/capslock_blue.png"
